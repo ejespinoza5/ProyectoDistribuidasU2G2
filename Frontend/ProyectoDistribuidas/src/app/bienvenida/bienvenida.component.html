@@ -1,0 +1,39 @@
+<div class="min-h-screen bg-zinc-950 flex items-center justify-center p-8">
+  <div class="max-w-6xl w-full bg-zinc-800 rounded-xl shadow-lg p-3">
+    <nav class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-white">¡Bienvenido, {{ usuarioNombre }}!</h2>
+      <button
+        (click)="Logout()"
+        class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+      >
+        Cerrar sesión
+      </button>
+    </nav>
+
+    <div class="container">
+      <h2 class="text-2xl font-bold text-white my-4">Productos</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div *ngFor="let producto of productos" class="card bg-zinc-700 p-4 rounded-lg shadow-lg">
+          <h3 class="text-lg font-semibold text-white">{{ producto.marca }} {{ producto.modelo }}</h3>
+          <p class="text-sm text-zinc-400"><strong>Color:</strong> {{ producto.color }}</p>
+          <p class="text-sm text-zinc-400"><strong>Precio:</strong> ${{ producto.precio }}</p>
+          <p class="text-sm text-zinc-400"><strong>Batería:</strong> {{ producto.bateria }}</p>
+          <p class="text-sm text-zinc-400"><strong>Almacenamiento:</strong> {{ producto.almacenamiento }}</p>
+          <p class="text-sm text-zinc-400"><strong>RAM:</strong> {{ producto.ram }}</p>
+          <p class="text-sm text-zinc-400"><strong>Pantalla:</strong> {{ producto.pantalla }}</p>
+          <p class="text-sm text-zinc-400"><strong>Cámara:</strong> {{ producto.camara }}</p>
+          <p class="text-sm text-zinc-400"><strong>Stock:</strong> {{ producto.stock }}</p>
+
+          <div class="mt-4 flex gap-2">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-1 px-3 rounded-lg transition-colors flex-1">
+              Actualizar
+            </button>
+            <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-1 px-3 rounded-lg transition-colors flex-1">
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

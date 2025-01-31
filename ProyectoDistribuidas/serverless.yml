@@ -1,0 +1,96 @@
+org: josueespinoza
+service: ProyectoDistribuidas
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+    - dynamodb:*
+    Resource:
+    - arn:aws:dynamodb:us-east-1:205930610423:table/CelularesNuevos
+    - arn:aws:dynamodb:us-east-1:205930610423:table/Usuarios
+  environment:
+    JWT_SECRET: '3yR7XkPq9Lz2v1w8t5o0c9n8b7v6m5l4k3j2h1g0f9e8d7c6b5a4'
+
+functions:
+  hello:
+    handler: src/handler.hello
+    events:
+    - httpApi:
+        path: /
+        method: get
+  AgregarCelular:
+    handler: src/IngresarCelular.IngresarCelular
+    events:
+    - httpApi:
+        path: /Celulares
+        method: post
+  ActualizarCelulares:
+    handler: src/ActualizarCelular.ActualizarCelular
+    events:
+    - httpApi:
+        path: /Celulares/{IdCelular}
+        method: put
+  EliminarCelular:
+    handler: src/EliminarCelular.EliminarCelular
+    events:
+    - httpApi:
+        path: /Celulares/{IdCelular}
+        method: delete
+  ListarCelulares:
+    handler: src/VerCelulares.VerCelulares
+    events:
+    - httpApi:
+        path: /Celulares
+        method: get
+  CrearUsuario:
+    handler: src/CrearUsuarios.CrearUsuarios
+    events:
+    - httpApi:
+        path: /Usuario
+        method: post
+  AutenticarUsuario:
+    handler: src/LoginUsuario.LoginUsuario
+    events:
+    - httpApi:
+        path: /Usuario/Login
+        method: post
+  
+
+resources:
+  Resources:
+    CelularTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: CelularesNuevos
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+        - AttributeName: IdCelular
+          AttributeType: S
+        KeySchema:
+        - AttributeName: IdCelular
+          KeyType: HASH
+
+    # tabla usuarios
+    UsuariosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Usuarios
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: correo
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: CorreoIndex
+            KeySchema:
+              - AttributeName: correo
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
