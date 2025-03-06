@@ -57,6 +57,12 @@ functions:
     - httpApi:
         path: /Usuario/Login
         method: post
+  ObtenerCelularPorId:
+    handler: src/VerCelularPorId.VerCelularPorId
+    events:
+    - httpApi:
+        path: /Celulares/{IdCelular}
+        method: get
   
 
 resources:

@@ -1,5 +1,9 @@
 const AWS = require('aws-sdk');
-const verificarToken = require('../Middleware/VerificarToken'); // Importar el middleware
+const verificarToken = require('../Middleware/VerificarToken');  // Asegúrate de que la ruta sea correcta
+
+AWS.config.update({
+    region: 'us-east-1' // Cambia esto por la región donde tienes tu tabla
+});
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -13,6 +17,9 @@ exports.VerCelulares = async (event) => {
         }).promise();
 
         const celulares = result.Items;
+
+        // Ordenar los celulares por el campo 'createdAt' (de más antiguo a más reciente)
+        celulares.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
         return {
             statusCode: 200,

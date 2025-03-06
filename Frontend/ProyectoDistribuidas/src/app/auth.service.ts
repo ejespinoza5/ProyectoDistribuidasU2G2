@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { jwtDecode } from 'jwt-decode'; 
+import { BehaviorSubject, Observable, tap, throwError } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 import { ResponseCelulares } from './models/producto.model';
 
 @Injectable({
@@ -70,4 +70,52 @@ export class AuthService {
 
     return this.http.get<ResponseCelulares>(`${this.apiUrl}/Celulares`, { headers });
   }
+  //crear producto
+  crearProducto(producto: any): Observable<any> {
+    const token = this.getToken();
+    if (!token) {
+      return throwError(() => new Error('No hay un token válido, el usuario no está autenticado.'));
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+    return this.http.post<any>(`${this.apiUrl}/Celulares`, producto, { headers });
+  }
+
+  actualizarCelular(id: string, datos: any): Observable<any> {
+    const token = this.getToken();
+    if (!token) {
+      return throwError(() => new Error('No hay un token válido, el usuario no está autenticado.'));
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+    return this.http.put<any>(`${this.apiUrl}/Celulares/${id}`, datos, { headers });
+  }
+
+  obtenerCelularPorId(id: string): Observable<any> {
+    const token = this.getToken();
+    if (!token) {
+      return throwError(() => new Error('No hay un token válido, el usuario no está autenticado.'));
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+    return this.http.get<any>(`${this.apiUrl}/Celulares/${id}`, { headers });
+  }
+
+ eliminarCelular(id: string): Observable<any> {
+  const token = this.getToken();
+  if (!token) {
+    return throwError(() => new Error('No hay un token válido, el usuario no está autenticado.'));
+  }
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`,
+  });
+  return this.http.delete<any>(`${this.apiUrl}/Celulares/${id}`, { headers });
+}
+
+
+
+
 }

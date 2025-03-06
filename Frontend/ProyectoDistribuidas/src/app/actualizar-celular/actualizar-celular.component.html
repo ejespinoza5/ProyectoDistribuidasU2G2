@@ -1,0 +1,28 @@
+<div class="min-h-screen bg-zinc-950 flex items-center justify-center p-8">
+  <div class="max-w-4xl w-full bg-zinc-800 rounded-xl shadow-lg p-6">
+    <h2 class="text-2xl font-bold text-white text-center mb-6">Actualizar Celular</h2>
+
+    <form [formGroup]="celularForm" (ngSubmit)="actualizarCelular()" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div *ngFor="let campo of campos" class="flex flex-col">
+        <label [for]="campo.id" class="text-white font-medium">{{ campo.label }}</label>
+        <input [type]="campo.type" class="bg-zinc-700 text-white rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+               [id]="campo.id" formControlName="{{ campo.name }}" />
+        <div *ngIf="celularForm.get(campo.name)?.invalid && celularForm.get(campo.name)?.touched" class="text-red-600">
+          Este campo es requerido
+        </div>
+      </div>
+
+      <div class="col-span-full flex gap-4 justify-center">
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-colors"
+                [disabled]="celularForm.invalid">
+          Actualizar
+        </button>
+        <a routerLink="/bienvenida" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 rounded-lg transition-colors text-center">
+          Cancelar
+        </a>
+      </div>
+    </form>
+
+    <p *ngIf="mensaje" class="text-center text-white mt-4">{{ mensaje }}</p>
+  </div>
+</div>
