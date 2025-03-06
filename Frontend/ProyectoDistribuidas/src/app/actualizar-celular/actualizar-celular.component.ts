@@ -57,8 +57,6 @@ export class ActualizarCelularComponent implements OnInit {
 
     if (celularId !== null) {
       this.celularService.obtenerCelularPorId(celularId).subscribe((response: any) => {
-        console.log('ID recibido:', celularId);
-        console.log('Datos recibidos del servicio:', response);
         this.celularForm.patchValue(response.celular);
       });
     } else {

@@ -22,7 +22,6 @@ export class BienvenidaComponent implements OnInit {
     // Obtener los productos
     this.authService.obtenerProductos().subscribe(
       (response) => {
-        console.log(response);  // Asegúrate de que la respuesta es la esperada
         this.productos = response.celulares;  // Extrae la propiedad 'celulares'
       },
       (error) => {
